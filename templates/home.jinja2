@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Benford's Law Checker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="static/style.css"/>
+  </head>
+  <body>
+    <h1>Benford's Law Checker</h1>
+    {% if message %}
+    <div class="message">{{ message }}</div>
+    {% endif %}
+    <form action="{{ request.route_url('benford') }}" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".csv" required>
+      <button type="submit">Check</button>
+    </form>
+    {% if result %}
+    <div id="result">
+      {% if result.conforms %}
+      <p>The dataset confirms to Benford's Law</p>
+      {% else %}
+      <p>The dataset does not confirm to Benford's Law</p>
+      {% endif %}
+      <div class="json">
+        <pre>{{ result | tojson }}</pre>
+      </div>
+      <ul>
+        {% for digit, probability in result.probabilities.items() %}
+        <li> {{ digit }}: {{ probability }}</li>
+        {% endfor %}
+      </ul>
+
+    </div>
+    
+    <canvas id="myChart"></canvas>
+    <script>
+      var data = {
+        labels: {{ result.probabilities.keys() | list }},
+        datasets: [{
+          label: 'First Digit Probabilities',
+          data: {{ result.probabilities.values() | list }},
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      };
+      var options = {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      };
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+      });
+    </script>
+  {% endif %}
+  </body>
+</html>
