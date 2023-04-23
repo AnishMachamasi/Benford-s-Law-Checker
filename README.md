@@ -2,16 +2,22 @@
 
 In this project, we have implemented Brenford's Law Checker using Pyramid Framework. 
 
-# Requirements
+## Requirements
 - Python
 - Pyramid
   
-# Installation
+## Installation
 `pip install pyramid=="1.10.5"`
 
 You can visit its official website for more information regarding installation: https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/install.html
 
 To know more about Pyramid Framework, visit: https://trypyramid.com/
+
+## Demo
+https://user-images.githubusercontent.com/98002255/233814981-ed8e4e55-2b12-4ccf-8b45-18143bb9ecdc.mp4
+
+
+
 
 ## Brenford's Law
 Benford's Law is an observation about the distribution of the frequencies of the first digits of the numbers in many different data sets. It is frequently found that the first digits are not uniformly distributed, but follow the logarithmic distribution
