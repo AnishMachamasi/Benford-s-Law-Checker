@@ -10,12 +10,24 @@ def home(request):
 
 @view_config(route_name='benford', renderer='templates/home.jinja2')
 def benford(request):
-    #Read the file
+    # Read file from the request
     file = request.POST['file'].file
     data = pd.read_csv(file, header=None, names=['value'])
+    
+    # Replace null values with NaN
+    data = data.replace('', float('nan'))
+
+    # Replace '-' with NaN
+    data = data.replace('-', float('nan'))
+
+    # Remove rows with NaN values
+    data.dropna(inplace=True)
+
+    # Convert values to float
+    data['value'] = data['value'].astype(float)
 
     # Get the first digit of each value
-    first_digits = data['value'].apply(lambda x: int(str(x)[0]))
+    first_digits = data['value'].apply(lambda x: int(str(x)[0]) if str(x)[0] != '0' else None)
 
     # Calculate the expected Benford distribution
     benford = [None] + [math.log10((i+1)/i) for i in range(1, 10)]
@@ -26,8 +38,8 @@ def benford(request):
     # Compare the expected and actual distributions
     diff = abs(pd.Series(benford) - actual).sum()
 
-    # check the difference within certain threshold
-    if diff < 0.1:
+    # If the difference is within a certain threshold, return success
+    if diff < 0.3:
         conforms = True
     else:
         conforms = False
