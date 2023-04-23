@@ -7,23 +7,27 @@
   </head>
   <body>
     <h1>Benford's Law Checker</h1>
-    {% if message %}
-    <div class="message">{{ message }}</div>
-    {% endif %}
+   
     <form action="{{ request.route_url('benford') }}" method="post" enctype="multipart/form-data">
-      <input type="file" name="file" accept=".csv" required>
-      <button type="submit">Check</button>
+  <div class="form-group">
+    <label for="file-upload" class="mr-3">Upload a CSV file only:</label>
+    <input type="file" name="file" id="file-upload" class="form-control-file mr-3" accept=".csv" required>
+    <small class="form-text text-muted">Accepted file types: CSV</small>
+  </div>
+  <button type="submit" class="btn btn-primary mt-3">Check</button>
     </form>
     {% if result %}
     <div id="result">
       {% if result.conforms %}
-      <p>The dataset confirms to Benford's Law</p>
+      <p>The dataset confirms to Benford's Law.</p>
       {% else %}
-      <p>The dataset does not confirm to Benford's Law</p>
+      <p>The dataset does not confirm to Benford's Law.</p>
       {% endif %}
       <div class="json">
         <pre>{{ result | tojson }}</pre>
       </div>
+      <br>
+      <p>The Distribution for each numbers is:</p>
       <ul>
         {% for digit, probability in result.probabilities.items() %}
         <li> {{ digit }}: {{ probability }}</li>
@@ -32,7 +36,8 @@
 
     </div>
     
-    <canvas id="myChart"></canvas>
+    <canvas id="myChart">
+    </canvas>
     <script>
       var data = {
         labels: {{ result.probabilities.keys() | list }},
