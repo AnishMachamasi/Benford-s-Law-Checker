@@ -10,8 +10,10 @@ def home(request):
 
 @view_config(route_name='benford', renderer='templates/home.jinja2')
 def benford(request):
-    # Read file from the request
+    # Get the uploaded file from the request
     file = request.POST['file'].file
+
+    # Load the CSV data into a pandas DataFrame
     data = pd.read_csv(file, header=None, names=['value'])
     
     # Replace null values with NaN
@@ -34,6 +36,8 @@ def benford(request):
 
     # Calculate the actual distribution of first digits
     actual = first_digits.value_counts(normalize=True).sort_index()
+    
+    actual_dict = {int(key): value for key, value in actual.to_dict().items()}
 
     # Compare the expected and actual distributions
     diff = abs(pd.Series(benford) - actual).sum()
@@ -45,7 +49,7 @@ def benford(request):
         conforms = False
         
     # Render the template with the result included
-    return {'result': {'conforms': conforms, 'probabilities': actual.to_dict()}}
+    return {'result': {'conforms': conforms, 'probabilities': actual_dict}}
 
 if __name__ == '__main__':
     with Configurator() as config:
