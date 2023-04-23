@@ -14,7 +14,7 @@ You can visit its official website for more information regarding installation: 
 To know more about Pyramid Framework, visit: https://trypyramid.com/
 
 ## Demo
-https://user-images.githubusercontent.com/98002255/233814981-ed8e4e55-2b12-4ccf-8b45-18143bb9ecdc.mp4
+https://user-images.githubusercontent.com/98002255/233818915-4ef2104b-ebf8-4e40-ba6e-583a118856b7.mp4
 
 
 
