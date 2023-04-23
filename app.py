@@ -12,8 +12,6 @@ def home(request):
 def benford(request):
     # Get the uploaded file from the request
     file = request.POST['file'].file
-
-    # Load the CSV data into a pandas DataFrame
     data = pd.read_csv(file, header=None, names=['value'])
     
     # Replace null values with NaN
@@ -22,7 +20,6 @@ def benford(request):
     # Replace '-' with NaN
     data = data.replace('-', float('nan'))
 
-    # Remove rows with NaN values
     data.dropna(inplace=True)
 
     # Convert values to float
@@ -48,7 +45,6 @@ def benford(request):
     else:
         conforms = False
         
-    # Render the template with the result included
     return {'result': {'conforms': conforms, 'probabilities': actual_dict}}
 
 if __name__ == '__main__':
