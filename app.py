@@ -10,10 +10,8 @@ def home(request):
 
 @view_config(route_name='benford', renderer='templates/home.jinja2')
 def benford(request):
-    # Get the uploaded file from the request
+    #Read the file
     file = request.POST['file'].file
-
-    # Load the CSV data into a pandas DataFrame
     data = pd.read_csv(file, header=None, names=['value'])
 
     # Get the first digit of each value
@@ -28,7 +26,7 @@ def benford(request):
     # Compare the expected and actual distributions
     diff = abs(pd.Series(benford) - actual).sum()
 
-    # If the difference is within a certain threshold, return success
+    # check the difference within certain threshold
     if diff < 0.1:
         conforms = True
     else:
