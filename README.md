@@ -16,6 +16,8 @@ To know more about Pyramid Framework, visit: https://trypyramid.com/
 ## Running the project
 `python app.py`
 
+Then, goto localhost:6543
+
 ## Demo
 https://user-images.githubusercontent.com/98002255/233818915-4ef2104b-ebf8-4e40-ba6e-583a118856b7.mp4
 
